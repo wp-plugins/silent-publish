@@ -1,32 +1,31 @@
 === Silent Publish ===
 Contributors: coffee2code
-Donate link: http://coffee2code.com/donate
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6ARCFJ9TX3522
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 2.9
-Tested up to: 3.5
-Stable tag: 2.3
-Version: 2.3
+Requires at least: 3.6
+Tested up to: 4.1
+Stable tag: 2.4.2
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
 
 == Description ==
 
-Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
+This plugin gives you the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
-This plugin adds a "Publish silently?" checkbox to the "Write Post" admin page.  If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
+A "Publish silently?" checkbox is added to the "Write Post" admin page. If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
 
 In every other manner, the post is published as usual: it'll appear on the front page, archives, and feeds as expected, and no other aspect of the post is affected.
 
 While trackbacks and pingsbacks can already be disabled from the Add New Post/Page page, this plugin makes things easier by allowing a single checkbox to disable those things, in addition to disabling notification of update services which otherwise could only be disabled by clearing the value of the global setting, which would then affect all authors and any subsequently published posts.
 
-If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action.  However, this value is not then used for any purpose as of yet.  Nor is the custom field unset or changed if the post is later re-published.
+If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not then used for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
 
-Also see my "Stealth Publish" plugin if you want make a new post but prevent it from appearing on the front page of your blog and not appear in feeds.  (That plugin incorporates this plugin's functionality, so you won't need both.)
+Also see my [Stealth Publish](http://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](http://wordpress.org/extend/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -38,7 +37,7 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 == Screenshots ==
 
-1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page.  The 'Publish silently?' checkbox is integrated alongside the existing fields.
+1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page. The 'Publish silently?' checkbox is integrated alongside the existing fields.
 2. A screenshot of the 'Silent publish?' checkbox displaying help text when hovering over the checkbox.
 
 
@@ -46,11 +45,15 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 = Why would I want to silent publish a post? =
 
-Perhaps for a particular post you don't want any external notifications sent out.  If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
+Perhaps for a particular post you don't want any external notifications sent out. If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
 
 = Can I have the checkbox checked by default? =
 
-Yes. See the Filters section (under Other Notes) and look for the example using the 'c2c_silent_publish_default' filter. You'll have to put that code into your active theme's functions.php file.
+Yes. See the Filters section (under Other Notes) and look for the example using the 'c2c_silent_publish_default' filter. You'll have to put that code into your active theme's functions.php file or a mu-plugin file.
+
+= Does this plugin include unit tests? =
+
+Yes.
 
 
 == Filters ==
@@ -59,19 +62,19 @@ The plugin is further customizable via two filters. Typically, these customizati
 
 = c2c_silent_publish_meta_key (filter) =
 
-The 'c2c_silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status.  This isn't a common need.
+The 'c2c_silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status. This isn't a common need.
 
 Arguments:
 
-* $custom_field_key (string): The custom field key to be used by the plugin.  By default this is '_silent-publish'.
+* $custom_field_key (string): The custom field key to be used by the plugin. By default this is '_silent-publish'.
 
 Example:
 
 `
-add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 function override_silent_publish_key( $custom_field_key ) {
 	return '_my_custom_silent-publish';
 }
+add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 `
 
 = c2c_silent_publish_default (filter) =
@@ -92,6 +95,34 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Changelog ==
+
+= 2.4.2 (2015-02-21) =
+* Revert to using `dirname(__FILE__)`; __DIR__ is only supported in PHP 5.3+
+
+= 2.4.1 (2015-02-17) =
+* Add more unit tests
+* Reformat plugin header
+* Use __DIR__ instead of `dirname(__FILE__)`
+* Note compatibility through WP 4.1+
+* Change documentation links to wp.org to be https
+* Minor documentation spacing changes throughout
+* Update copyright date (2015)
+* Add plugin icon
+* Regenerate .pot
+
+= 2.4 (2014-01-23) =
+* Fix to preserve silent publishing status when post gets re-edited after being published
+* Delete meta data if saving a post that doesn't have the checkbox checked
+* Add unit tests
+* Minor documentation improvements
+* Minor code reformatting (spacing, bracing)
+* Note compatibility through WP 3.8+
+* Drop compatibility with version of WP older than 3.6
+* Update copyright date (2014)
+* Regenerate .pot
+* Change donate link
+* Update screenshots
+* Add banner
 
 = 2.3 =
 * Deprecate 'silent_publish_meta_key' filter in favor of 'c2c_silent_publish_meta_key' (but keep it temporarily for backwards compatibility)
@@ -169,6 +200,15 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Upgrade Notice ==
 
+= 2.4.2 =
+Bugfix release (for sites using the ancient PHP 5.2): revert use of __DIR__ constant since it wasn't introduced until PHP 5.3
+
+= 2.4.1 =
+Trivial update: added more unit tests; noted compatibility through WP 4.1+; updated copyright date (2015); added plugin icon
+
+= 2.4 =
+Recommended minor update: fix to preserve silent publishing status after being published; added unit tests; noted compatibility through WP 3.8+; dropped compatibility with versions of WP older than 3.6
+
 = 2.3 =
 Recommended update: renamed and deprecated a filter; noted compatibility through WP 3.5+; and more.
 
@@ -182,7 +222,7 @@ Minor update: fixed bug with losing Silent Publish status during Quick Edit; add
 Minor update: implementation changes; noted compatibility with WP 3.1+ and updated copyright date.
 
 = 2.0.1 =
-Recommended bugfix release.  Fixes bug where auto-save can lose value of silent publish status.
+Recommended bugfix release. Fixes bug where auto-save can lose value of silent publish status.
 
 = 2.0 =
 Recommended major update! Highlights: re-implemented; added filters for customization; localization support; use hidden custom field; misc non-functionality changes; verified WP 3.0 compatibility; dropped compatibility with version of WP older than 2.9.
